@@ -1,4 +1,4 @@
-import { selectChanged } from './model';
+import { $formStore, selectChanged } from './model';
 import { useUnit } from 'effector-react';
 import './style.css';
 import { useEffect, useState } from 'react';
@@ -14,6 +14,7 @@ import {
 import SelectList from '../select-list';
 
 export default function SelectForm() {
+  // const formStore = useUnit($formStore);
   const onSelectChanged = useUnit(selectChanged);
 
   const [country, setCountry] = useState('');
