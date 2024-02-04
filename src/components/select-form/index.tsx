@@ -1,3 +1,5 @@
+import { selectChanged } from './model';
+import { useUnit } from 'effector-react';
 import './style.css';
 import { useEffect, useState } from 'react';
 import {
@@ -12,6 +14,8 @@ import {
 import SelectList from '../select-list';
 
 export default function SelectForm() {
+  const onSelectChanged = useUnit(selectChanged);
+
   const [country, setCountry] = useState('');
   const [city, setCity] = useState('');
   const [university, setUniversity] = useState('');
@@ -49,7 +53,8 @@ export default function SelectForm() {
         type='country'
         list={countries}
         value={country}
-        onChange={setCountry}
+        onChange={onSelectChanged}
+        // onChange={setCountry}
       />
       {country === COUNTRIES_CODE_NAME.RU && (
         <SelectList
