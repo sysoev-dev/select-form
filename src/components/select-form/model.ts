@@ -13,27 +13,19 @@ const initialState = {
   accommodation: '',
 };
 
-export const selectChanged = createEvent<string>();
+export const selectChanged = createEvent<{}>();
 
 export const $formStore = createStore<FormStore>(initialState);
 
-const selectEffectFx = createEffect((data: string) => {
-  console.log('сработал эффект от selectChanged');
-  console.log('data: ', data);
-  console.log('store:', $formStore.getState());
-  return {
-    Страна: data,
-  };
-});
-
-sample({
-  clock: selectChanged, // Указано что срабатывает
-  fn: (data) => data.toUpperCase(), // чтоб что-то преобразовать данные из clock. На входе первый параметр данных из клок второй из сурса
-  // source - откуда брать данные, если нет то из clock
-  target: selectEffectFx,
-});
+// const selectEffectFx = createEffect(
+//   (data: { select: string; country: string }) => {}
+// );
 
 // sample({
-//   clock: selectEffectFx,
-//   target: $formStore,
+//   clock: selectChanged, // Указано что срабатывает
+//   // fn: (data) => data.toUpperCase(), // чтоб что-то преобразовать данные из clock. На входе первый параметр данных из клок второй из сурса
+//   // source - откуда брать данные, если нет то из clock
+//   target: selectEffectFx,
 // });
+$formStore.on(selectChanged, (state, data) => {});
+// selectChanged.watch((data) => console.log(data));

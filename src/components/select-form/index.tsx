@@ -14,7 +14,7 @@ import {
 import SelectList from '../select-list';
 
 export default function SelectForm() {
-  // const formStore = useUnit($formStore);
+  const formStore = useUnit($formStore);
   const onSelectChanged = useUnit(selectChanged);
 
   const [country, setCountry] = useState('');
