@@ -10,12 +10,9 @@ export default function SelectList({
   onChange,
 }: SelectListProps) {
   function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
-    const selectType = type;
     const selectValue = e.target.value;
-    onChange({
-      select: selectType,
-      value: selectValue,
-    });
+
+    onChange(selectValue);
   }
 
   useEffect(() => {

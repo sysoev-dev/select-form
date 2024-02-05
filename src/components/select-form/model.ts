@@ -1,31 +1,29 @@
-import { createEffect, createEvent, createStore, sample } from 'effector';
-interface FormStore {
-  country: string;
-  city: string;
-  university: string;
-  accommodation: string;
-}
+import { createEvent, createStore } from 'effector';
 
-const initialState = {
+export const countryChanged = createEvent<string>();
+export const cityChanged = createEvent<string>();
+export const universityChanged = createEvent<string>();
+export const accommodationChanged = createEvent<string>();
+
+export const $formStore = createStore({
   country: '',
   city: '',
   university: '',
   accommodation: '',
-};
+});
 
-export const selectChanged = createEvent<{}>();
+$formStore.on(countryChanged, (state, value) => {
+  return { ...state, country: value };
+});
 
-export const $formStore = createStore<FormStore>(initialState);
+$formStore.on(cityChanged, (state, value) => {
+  return { ...state, city: value };
+});
 
-// const selectEffectFx = createEffect(
-//   (data: { select: string; country: string }) => {}
-// );
+$formStore.on(universityChanged, (state, value) => {
+  return { ...state, university: value };
+});
 
-// sample({
-//   clock: selectChanged, // Указано что срабатывает
-//   // fn: (data) => data.toUpperCase(), // чтоб что-то преобразовать данные из clock. На входе первый параметр данных из клок второй из сурса
-//   // source - откуда брать данные, если нет то из clock
-//   target: selectEffectFx,
-// });
-$formStore.on(selectChanged, (state, data) => {});
-// selectChanged.watch((data) => console.log(data));
+$formStore.on(accommodationChanged, (state, value) => {
+  return { ...state, accommodation: value };
+});
