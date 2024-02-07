@@ -39,6 +39,11 @@ const cities = [
   },
 ];
 
+const UNIVERSITIES_TYPES = {
+  TECHNICAL: 'Technical',
+  HUMANITARIAN: 'Humanitarian',
+};
+
 const universities = [
   {
     name: 'Технический',
@@ -71,6 +76,29 @@ const accommodationList = [
   },
 ];
 
+const faculties = {
+  technical: [
+    {
+      name: 'Математика',
+      value: 'Mathematics',
+    },
+    {
+      name: 'Физика',
+      value: 'Physics',
+    },
+  ],
+  humanitarian: [
+    {
+      name: 'История',
+      value: 'History',
+    },
+    {
+      name: 'Философия',
+      value: 'Philosophy',
+    },
+  ],
+};
+
 const citiesListRu = cities.filter(
   (item) => item.country === COUNTRIES_CODE_NAME.Russia
 );
@@ -86,9 +114,11 @@ const accommodationListBy = accommodationList.filter(
 export {
   countries,
   universities,
+  UNIVERSITIES_TYPES,
   COUNTRIES_CODE_NAME,
   citiesListRu,
   citiesListBy,
   accommodationList,
   accommodationListBy,
+  faculties,
 };

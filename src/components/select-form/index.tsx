@@ -6,8 +6,10 @@ import {
   citiesListRu,
   citiesListBy,
   universities,
+  UNIVERSITIES_TYPES,
   accommodationList,
   accommodationListBy,
+  faculties,
 } from './data';
 import SelectList from '../select-list';
 
@@ -16,8 +18,11 @@ export default function SelectForm() {
   const [city, setCity] = useState('');
   const [university, setUniversity] = useState('');
   const [accommodation, setAccommodation] = useState('');
+  const [faculty, setFaculty] = useState('');
   const [isFormCompleted, setIsFormCompleted] = useState(false);
   const [isFormSubmited, setIsFormSubmited] = useState(false);
+
+  const isTehnicalUniversity = university === UNIVERSITIES_TYPES.TECHNICAL;
 
   function handleSubmitForm(event: React.FormEvent) {
     event.preventDefault();
@@ -26,14 +31,15 @@ export default function SelectForm() {
   }
 
   useEffect(() => {
-    const isValidForm = country && city && university && accommodation;
+    const isValidForm =
+      country && city && university && accommodation && faculty;
 
     if (isValidForm) {
       setIsFormCompleted(true);
     } else {
       setIsFormCompleted(false);
     }
-  }, [country, city, university, accommodation]);
+  }, [country, city, university, accommodation, faculty]);
 
   return (
     <form
@@ -69,13 +75,15 @@ export default function SelectForm() {
           onChange={setCity}
         />
       )}
-      <SelectList
-        title='Вид ВУЗа'
-        type='university'
-        list={universities}
-        value={university}
-        onChange={setUniversity}
-      />
+      {country && city && (
+        <SelectList
+          title='Вид ВУЗа'
+          type='university'
+          list={universities}
+          value={university}
+          onChange={setUniversity}
+        />
+      )}
       {country &&
         city &&
         university &&
@@ -96,6 +104,17 @@ export default function SelectForm() {
             onChange={setAccommodation}
           />
         ))}
+      {country && city && university && accommodation && (
+        <SelectList
+          title='Выбор факультета'
+          type='faculty'
+          list={
+            isTehnicalUniversity ? faculties.technical : faculties.humanitarian
+          }
+          value={faculty}
+          onChange={setFaculty}
+        />
+      )}
       <button
         className='form__button-submit'
         disabled={!isFormCompleted}
@@ -109,6 +128,7 @@ export default function SelectForm() {
           <p className='form__output-text'>City: {city}</p>
           <p className='form__output-text'>University: {university}</p>
           <p className='form__output-text'>Accommodation: {accommodation}</p>
+          <p className='form__output-text'>Faculty: {faculty}</p>
         </output>
       )}
     </form>
