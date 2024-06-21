@@ -11,6 +11,7 @@ export default function SelectList({
 }: SelectListProps) {
   function handleSelectChange(e: React.ChangeEvent<HTMLSelectElement>) {
     const selectValue = e.target.value;
+
     onChange(selectValue);
   }
 

@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "effector": "^23.1.0",
+    "effector-logger": "^0.15.0",
+    "effector-react": "^23.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

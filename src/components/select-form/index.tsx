@@ -1,4 +1,11 @@
-import './style.css';
+import { useUnit } from 'effector-react';
+import {
+  $formStore,
+  countryChanged,
+  cityChanged,
+  universityChanged,
+  accommodationChanged,
+} from './model';
 import { useEffect, useState } from 'react';
 import {
   COUNTRIES_CODE_NAME,
@@ -10,12 +17,14 @@ import {
   accommodationListBy,
 } from './data';
 import SelectList from '../select-list';
+import './style.css';
 
 export default function SelectForm() {
-  const [country, setCountry] = useState('');
-  const [city, setCity] = useState('');
-  const [university, setUniversity] = useState('');
-  const [accommodation, setAccommodation] = useState('');
+  const formStore = useUnit($formStore);
+  const onCountryChanged = useUnit(countryChanged);
+  const onCityChanged = useUnit(cityChanged);
+  const onUniversityChanged = useUnit(universityChanged);
+  const onAccommodationChanged = useUnit(accommodationChanged);
   const [isFormCompleted, setIsFormCompleted] = useState(false);
   const [isFormSubmited, setIsFormSubmited] = useState(false);
 
@@ -26,14 +35,23 @@ export default function SelectForm() {
   }
 
   useEffect(() => {
-    const isValidForm = country && city && university && accommodation;
+    const isValidForm =
+      formStore.country &&
+      formStore.city &&
+      formStore.university &&
+      formStore.accommodation;
 
     if (isValidForm) {
       setIsFormCompleted(true);
     } else {
       setIsFormCompleted(false);
     }
-  }, [country, city, university, accommodation]);
+  }, [
+    formStore.country,
+    formStore.city,
+    formStore.university,
+    formStore.accommodation,
+  ]);
 
   return (
     <form
@@ -48,52 +66,52 @@ export default function SelectForm() {
         title='Выбор страны'
         type='country'
         list={countries}
-        value={country}
-        onChange={setCountry}
+        value={formStore.country}
+        onChange={onCountryChanged}
       />
-      {country === COUNTRIES_CODE_NAME.RU && (
+      {formStore.country === COUNTRIES_CODE_NAME.RU && (
         <SelectList
           title='Выбор города'
           type='city'
           list={citiesListRu}
-          value={city}
-          onChange={setCity}
+          value={formStore.city}
+          onChange={onCityChanged}
         />
       )}
-      {country === COUNTRIES_CODE_NAME.BY && (
+      {formStore.country === COUNTRIES_CODE_NAME.BY && (
         <SelectList
           title='Выбор города'
           type='city'
           list={citiesListBy}
-          value={city}
-          onChange={setCity}
+          value={formStore.city}
+          onChange={onCityChanged}
         />
       )}
       <SelectList
         title='Вид ВУЗа'
         type='university'
         list={universities}
-        value={university}
-        onChange={setUniversity}
+        value={formStore.university}
+        onChange={onUniversityChanged}
       />
-      {country &&
-        city &&
-        university &&
-        (country === COUNTRIES_CODE_NAME.RU ? (
+      {formStore.country &&
+        formStore.city &&
+        formStore.university &&
+        (formStore.country === COUNTRIES_CODE_NAME.RU ? (
           <SelectList
             title='Вариант проживания'
             type='accommodation'
             list={accommodationList}
-            value={accommodation}
-            onChange={setAccommodation}
+            value={formStore.accommodation}
+            onChange={onAccommodationChanged}
           />
         ) : (
           <SelectList
             title='Вариант проживания'
             type='accommodation'
             list={accommodationListBy}
-            value={accommodation}
-            onChange={setAccommodation}
+            value={formStore.accommodation}
+            onChange={formStore.accommodation}
           />
         ))}
       <button
@@ -105,10 +123,14 @@ export default function SelectForm() {
       </button>
       {isFormSubmited && (
         <output className='form__output' role='status'>
-          <p className='form__output-text'>Country: {country}</p>
-          <p className='form__output-text'>City: {city}</p>
-          <p className='form__output-text'>University: {university}</p>
-          <p className='form__output-text'>Accommodation: {accommodation}</p>
+          <p className='form__output-text'>Country: {formStore.country}</p>
+          <p className='form__output-text'>City: {formStore.city}</p>
+          <p className='form__output-text'>
+            University: {formStore.university}
+          </p>
+          <p className='form__output-text'>
+            Accommodation: {formStore.accommodation}
+          </p>
         </output>
       )}
     </form>
